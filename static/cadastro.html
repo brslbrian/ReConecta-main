@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadastro · ReConecta</title>
+  <meta name="description" content="Cadastre sua empresa do setor de alimentos ou seja um doador no ReConecta, a plataforma de redistribuição de excedentes alimentares.">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" type="image/svg+xml" href="/static/img/marca.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/cadastro.css">
+  <script src="/static/js/layout.js" defer></script>
+  <script src="/static/js/cadastro.js" defer></script>
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o cadastro</a>
+  <header data-layout="cabecalho"></header>
+
+  <div class="pagina">
+    <!-- coluna esquerda: apresentação e os três passos -->
+    <aside class="vitrine" aria-labelledby="vitrine-titulo">
+      <div class="vitrine__deco" aria-hidden="true">
+        <img class="vitrine__folha vitrine__folha--topo" src="/static/img/doacoes/folha-3.webp" alt="" width="59" height="126">
+        <img class="vitrine__folha vitrine__folha--base" src="/static/img/doacoes/folha-6.webp" alt="" width="84" height="76">
+      </div>
+      <div class="vitrine__texto">
+        <p class="sobretitulo">Redistribuição de excedentes alimentares</p>
+        <h1 id="vitrine-titulo">Excedente de hoje, <br><em>refeição</em> de amanhã.</h1>
+        <p class="vitrine__lead">O ReConecta conecta quem tem alimento bom sobrando com quem precisa, reduzindo o desperdício e gerando mais refeições para pessoas e comunidades.</p>
+      </div>
+
+      <ol class="passos" aria-label="Como funciona">
+        <li><a class="passo" href="#cadastro-titulo" id="passo-cadastro">
+          <span class="passo__n" aria-hidden="true">1</span>
+          <span class="passo__icone" aria-hidden="true"><svg viewBox="0 0 32 32" focusable="false"><path d="M5 13l2.2-6.4A2 2 0 0 1 9.1 5h13.8a2 2 0 0 1 1.9 1.4L27 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M5 13h22v1.5a3.7 3.7 0 0 1-7.3 0 3.7 3.7 0 0 1-7.4 0A3.7 3.7 0 0 1 5 14.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7 18.5V27h18v-8.5M13 27v-5.5h6V27" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+          <span class="passo__rotulo">Cadastre-se</span><svg class="passo__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5 15.5 12 9 18.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a></li>
+        <li><a class="passo" href="/entrar" id="passo-publicar">
+          <span class="passo__n" aria-hidden="true">2</span>
+          <span class="passo__icone" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3.5 7.5 12 3.5l8.5 4v9L12 20.5l-8.5-4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3.5 7.5 12 11.5l8.5-4M12 11.5v9M7.8 5.5l8.4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+          <span class="passo__rotulo">Publique o pedido</span><svg class="passo__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5 15.5 12 9 18.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a></li>
+        <li><a class="passo" href="/#doacoes">
+          <span class="passo__n" aria-hidden="true">3</span>
+          <span class="passo__icone" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="7.5" r="2.6" fill="currentColor"/><circle cx="5.8" cy="9.5" r="2" fill="currentColor"/><circle cx="18.2" cy="9.5" r="2" fill="currentColor"/><path d="M7.5 18.5c.5-3.2 2.3-5 4.5-5s4 1.8 4.5 5zM2.5 17c.3-2.2 1.5-3.4 3.3-3.4.9 0 1.6.3 2.2.8-.6.8-1 1.7-1.2 2.6zM21.5 17c-.3-2.2-1.5-3.4-3.3-3.4-.9 0-1.6.3-2.2.8.6.8 1 1.7 1.2 2.6z" fill="currentColor"/></svg></span>
+          <span class="passo__rotulo">Pessoas e empresas doam</span><svg class="passo__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5.5 15.5 12 9 18.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a></li>
+      </ol>
+    </aside>
+
+    <main id="conteudo" class="painel" tabindex="-1">
+      <div class="painel__corpo">
+
+        <!-- Etapa: escolha do perfil + formulários -->
+        <section id="etapa-cadastro" aria-labelledby="cadastro-titulo">
+          <div id="etapa-perfil">
+          <header class="cabecalho">
+            <h2 id="cadastro-titulo" tabindex="-1">Crie seu cadastro</h2>
+            <p class="cabecalho__sub">Escolha como você vai participar.</p>
+          </header>
+
+          <fieldset class="perfis">
+            <legend class="sr-only">Tipo de cadastro</legend>
+
+            <label class="perfil perfil--empresa">
+              <input type="radio" name="perfil" value="empresa" class="perfil__radio">
+              <span class="perfil__icone" aria-hidden="true">
+                <svg viewBox="0 0 32 32" focusable="false"><path d="M5 13l2.2-6.4A2 2 0 0 1 9.1 5h13.8a2 2 0 0 1 1.9 1.4L27 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M5 13h22v1.5a3.7 3.7 0 0 1-7.3 0 3.7 3.7 0 0 1-7.4 0A3.7 3.7 0 0 1 5 14.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7 18.5V27h18v-8.5M13 27v-5.5h6V27" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="perfil__texto">
+                <span class="perfil__titulo">Sou empresa</span>
+                <span class="perfil__desc">Restaurante, padaria, mercado, associação ou outro negócio que precisa de doações ou quer doar. Usa CNPJ.</span>
+              </span>
+              <span class="perfil__marcador" aria-hidden="true"></span>
+            </label>
+
+            <label class="perfil perfil--doador">
+              <input type="radio" name="perfil" value="doador" class="perfil__radio">
+              <span class="perfil__icone" aria-hidden="true">
+                <svg viewBox="0 0 32 32" focusable="false"><path d="M16 12.5c-1.6-3.2-6.5-3-7 .6-.4 3 3.4 5.7 7 8.4 3.6-2.7 7.4-5.4 7-8.4-.5-3.6-5.4-3.8-7-.6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M3 22.5l4.5-1.8c1.3-.5 2.7-.4 3.9.3l3.4 1.9h4.2a1.8 1.8 0 0 1 0 3.6H14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 26.5l6.2-2.6a2 2 0 0 1 1.8 3.4L20.5 30H11l-8-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="perfil__texto">
+                <span class="perfil__titulo">Sou doador</span>
+                <span class="perfil__desc">Pessoa física que quer doar alimentos. Usa CPF.</span>
+              </span>
+              <span class="perfil__marcador" aria-hidden="true"></span>
+            </label>
+          </fieldset>
+
+          <p id="dica-perfil" class="dica-perfil" aria-live="polite">Selecione uma opção acima para continuar.</p>
+
+          <button type="button" id="btn-continuar" class="botao botao--primario botao--continuar">
+            <span class="botao__rotulo">Continuar</span>
+            <svg class="botao__seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          </div>
+
+          <button type="button" id="btn-voltar" class="voltar" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Voltar e trocar o perfil
+          </button>
+
+          <!-- Formulário: empresa -->
+          <form id="form-empresa" class="formulario" novalidate hidden aria-labelledby="titulo-empresa">
+            <h3 id="titulo-empresa" class="formulario__titulo" tabindex="-1">Dados da empresa</h3>
+            <p class="formulario__intro">Conferimos o CNPJ na Receita Federal: ele precisa estar <strong>ativo</strong> e ter atividade ligada a <strong>alimentação</strong>.</p>
+
+            <div class="campo">
+              <label for="cnpj" class="campo__rotulo">CNPJ</label>
+              <div class="campo__linha">
+                <input id="cnpj" name="cnpj" class="campo__entrada campo__entrada--mono" inputmode="numeric" autocomplete="off"
+                       placeholder="00.000.000/0000-00" maxlength="18" aria-describedby="cnpj-ajuda cnpj-erro" required>
+                <button type="button" id="btn-verificar" class="botao botao--secundario">Verificar</button>
+              </div>
+              <p id="cnpj-ajuda" class="campo__ajuda">A consulta começa sozinha quando os 14 dígitos estiverem completos.</p>
+              <p id="cnpj-erro" class="campo__erro" data-erro></p>
+            </div>
+
+            <div id="resultado-cnpj" class="resultado" aria-live="polite" aria-busy="false"></div>
+
+            <fieldset id="contato-empresa" class="grupo-contato" disabled>
+              <legend class="grupo-contato__legenda">Contato para as doações</legend>
+              <div class="campo">
+                <label for="empresa-email" class="campo__rotulo">E-mail</label>
+                <input id="empresa-email" name="email" type="email" class="campo__entrada" autocomplete="email"
+                       placeholder="contato@empresa.com.br" aria-describedby="empresa-email-erro" required>
+                <p id="empresa-email-erro" class="campo__erro" data-erro></p>
+              </div>
+              <div class="campo">
+                <label for="empresa-telefone" class="campo__rotulo">Telefone</label>
+                <input id="empresa-telefone" name="telefone" type="tel" class="campo__entrada campo__entrada--mono" autocomplete="tel"
+                       inputmode="numeric" placeholder="(00) 00000-0000" maxlength="15" aria-describedby="empresa-telefone-erro" required>
+                <p id="empresa-telefone-erro" class="campo__erro" data-erro></p>
+              </div>
+            </fieldset>
+
+            <fieldset id="acesso-empresa" class="grupo-contato grupo-contato--acesso" disabled>
+              <legend class="grupo-contato__legenda">Senha de acesso ao painel</legend>
+              <div class="campo">
+                <label for="empresa-senha" class="campo__rotulo">Senha</label>
+                <div class="campo__linha">
+                  <input id="empresa-senha" name="senha" type="password" class="campo__entrada" autocomplete="new-password"
+                         maxlength="72" aria-describedby="empresa-senha-ajuda empresa-senha-erro" required>
+                  <button type="button" class="campo__olho" data-olho="empresa-senha" aria-label="Mostrar senha" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path class="olho-aberto" d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                      <circle class="olho-aberto" cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                      <path class="olho-fechado" d="M4 4.5l16 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="senha-forca" id="empresa-senha-forca" aria-hidden="true"><i></i><i></i><i></i></div>
+                <p id="empresa-senha-ajuda" class="campo__ajuda">Pelo menos 8 caracteres, com letra e número.</p>
+                <p id="empresa-senha-erro" class="campo__erro" data-erro></p>
+              </div>
+              <div class="campo">
+                <label for="empresa-confirmar" class="campo__rotulo">Confirmar senha</label>
+                <input id="empresa-confirmar" name="confirmar_senha" type="password" class="campo__entrada" autocomplete="new-password"
+                       maxlength="72" aria-describedby="empresa-confirmar-erro" required>
+                <p id="empresa-confirmar-erro" class="campo__erro" data-erro></p>
+              </div>
+            </fieldset>
+
+            <div id="aviso-empresa" class="aviso" role="alert" hidden></div>
+
+            <button type="submit" id="btn-empresa" class="botao botao--primario" disabled>
+              <span class="botao__rotulo">Concluir cadastro</span>
+            </button>
+            <p class="formulario__nota" id="nota-empresa">Verifique o CNPJ para liberar o cadastro.</p>
+          </form>
+
+          <!-- Formulário: doador -->
+          <form id="form-doador" class="formulario" novalidate hidden aria-labelledby="titulo-doador">
+            <h3 id="titulo-doador" class="formulario__titulo" tabindex="-1">Seus dados</h3>
+            <p class="formulario__intro">Usamos seus dados só para organizar as doações. O CPF não aparece para ninguém.</p>
+
+            <div class="campo">
+              <label for="doador-nome" class="campo__rotulo">Nome completo</label>
+              <input id="doador-nome" name="nome" class="campo__entrada" autocomplete="name" maxlength="100"
+                     aria-describedby="doador-nome-erro" required>
+              <p id="doador-nome-erro" class="campo__erro" data-erro></p>
+            </div>
+            <div class="campo">
+              <label for="doador-cpf" class="campo__rotulo">CPF</label>
+              <input id="doador-cpf" name="cpf" class="campo__entrada campo__entrada--mono" inputmode="numeric" autocomplete="off"
+                     placeholder="000.000.000-00" maxlength="14" aria-describedby="doador-cpf-erro" required>
+              <p id="doador-cpf-erro" class="campo__erro" data-erro></p>
+            </div>
+            <div class="campo-dupla">
+              <div class="campo">
+                <label for="doador-email" class="campo__rotulo">E-mail</label>
+                <input id="doador-email" name="email" type="email" class="campo__entrada" autocomplete="email"
+                       placeholder="voce@email.com" aria-describedby="doador-email-erro" required>
+                <p id="doador-email-erro" class="campo__erro" data-erro></p>
+              </div>
+              <div class="campo">
+                <label for="doador-telefone" class="campo__rotulo">Telefone</label>
+                <input id="doador-telefone" name="telefone" type="tel" class="campo__entrada campo__entrada--mono" autocomplete="tel"
+                       inputmode="numeric" placeholder="(00) 00000-0000" maxlength="15" aria-describedby="doador-telefone-erro" required>
+                <p id="doador-telefone-erro" class="campo__erro" data-erro></p>
+              </div>
+            </div>
+
+            <fieldset class="grupo-contato grupo-contato--acesso">
+              <legend class="grupo-contato__legenda">Senha de acesso ao painel</legend>
+              <div class="campo">
+                <label for="doador-senha" class="campo__rotulo">Senha</label>
+                <div class="campo__linha">
+                  <input id="doador-senha" name="senha" type="password" class="campo__entrada" autocomplete="new-password"
+                         maxlength="72" aria-describedby="doador-senha-ajuda doador-senha-erro" required>
+                  <button type="button" class="campo__olho" data-olho="doador-senha" aria-label="Mostrar senha" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path class="olho-aberto" d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                      <circle class="olho-aberto" cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                      <path class="olho-fechado" d="M4 4.5l16 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="senha-forca" id="doador-senha-forca" aria-hidden="true"><i></i><i></i><i></i></div>
+                <p id="doador-senha-ajuda" class="campo__ajuda">Pelo menos 8 caracteres, com letra e número.</p>
+                <p id="doador-senha-erro" class="campo__erro" data-erro></p>
+              </div>
+              <div class="campo">
+                <label for="doador-confirmar" class="campo__rotulo">Confirmar senha</label>
+                <input id="doador-confirmar" name="confirmar_senha" type="password" class="campo__entrada" autocomplete="new-password"
+                       maxlength="72" aria-describedby="doador-confirmar-erro" required>
+                <p id="doador-confirmar-erro" class="campo__erro" data-erro></p>
+              </div>
+            </fieldset>
+
+            <div id="aviso-doador" class="aviso" role="alert" hidden></div>
+
+            <button type="submit" id="btn-doador" class="botao botao--primario">
+              <span class="botao__rotulo">Concluir cadastro</span>
+            </button>
+          </form>
+        </section>
+
+        <!-- Etapa: sucesso -->
+        <section id="etapa-sucesso" class="sucesso" hidden aria-labelledby="sucesso-titulo" tabindex="-1">
+          <svg class="sucesso__selo" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <circle cx="32" cy="32" r="30" fill="var(--marca-suave)"/>
+            <path class="sucesso__check" d="M20 33.5l8 8 16-17" fill="none" stroke="var(--marca)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p class="sobretitulo" id="sucesso-tipo"></p>
+          <h2 id="sucesso-titulo">Cadastro concluído</h2>
+          <p class="sucesso__texto" id="sucesso-texto"></p>
+          <dl class="sucesso__dados" id="sucesso-dados"></dl>
+          <div class="sucesso__acoes">
+            <a href="/painel" class="botao botao--primario botao--link">Ir para o painel</a>
+            <button type="button" id="btn-novo" class="botao botao--secundario">Fazer novo cadastro</button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <footer data-layout="rodape"></footer>
+</body>
+</html>
