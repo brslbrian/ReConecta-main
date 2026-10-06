@@ -12,6 +12,8 @@
      window.ReConecta.sair()            POST /reconecta/auth/logout e volta para /
      window.ReConecta.nomeTitulo(nome)  "PADARIA PAO DOURADO LTDA" → "Padaria Pao Dourado LTDA"
      window.ReConecta.formatarTelefone(t) "11987654321" → "(11) 98765-4321"
+     window.ReConecta.dataBrasilia(iso)  interpreta datas da API com fuso explícito
+     window.ReConecta.diaISO(data)       dia civil em Brasília (AAAA-MM-DD)
      evento "reconecta:sessao" no document, detail = { usuario }  (usuario null = deslogado) */
 (function () {
   "use strict";
@@ -144,6 +146,25 @@
     return String(t || "");
   }
 
+  var FUSO = "America/Sao_Paulo";
+  function dataBrasilia(iso) {
+    if (!iso) return null;
+    var valor = String(iso);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(valor)) valor += "T12:00:00Z";
+    else if (/^\d{4}-\d{2}-\d{2}T/.test(valor) && !/(Z|[+-]\d{2}:\d{2})$/.test(valor)) valor += "-03:00";
+    var data = new Date(valor);
+    return isNaN(data) ? null : data;
+  }
+
+  function diaISO(data) {
+    var partes = new Intl.DateTimeFormat("en-US", {
+      timeZone: FUSO, year: "numeric", month: "2-digit", day: "2-digit"
+    }).formatToParts(data);
+    var campos = {};
+    partes.forEach(function (parte) { campos[parte.type] = parte.value; });
+    return campos.year + "-" + campos.month + "-" + campos.day;
+  }
+
   function nomeCurto(usuario) {
     // empresa: as duas primeiras palavras do nome ("Arcos Dourados"); pessoa: primeiro nome.
     // O nome completo fica no title do elemento.
@@ -215,7 +236,10 @@
 
   /* ---------- sessão ---------- */
 
-  function consultarSessao() {
+  /* Uma única chamada a GET /reconecta/auth/me por página: o cabeçalho e a
+     página (painel.js, entrar.js) reaproveitam a mesma resposta em
+     window.ReConecta.sessaoResposta = Promise<{status, ok, corpo}> (rejeita sem rede). */
+  function buscarSessao() {
     var controle = typeof AbortController === "function" ? new AbortController() : null;
     var limite = setTimeout(function () { if (controle) controle.abort(); }, 6000);
     return fetch("/reconecta/auth/me", {
@@ -223,11 +247,16 @@
       headers: { "Accept": "application/json" },
       signal: controle ? controle.signal : undefined
     }).then(function (r) {
-      if (!r.ok) return null;
-      return r.json().catch(function () { return null; });
-    }).catch(function () { return null; })
+      clearTimeout(limite);
+      return r.json().catch(function () { return null; }).then(function (corpo) {
+        return { status: r.status, ok: r.ok, corpo: corpo || {} };
+      });
+    }, function (erro) { clearTimeout(limite); throw erro; });
+  }
+
+  function consultarSessao(resposta) {
+    return resposta.then(function (r) { return r.ok ? r.corpo : null; }, function () { return null; })
       .then(function (usuario) {
-        clearTimeout(limite);
         usuario = usuario && typeof usuario === "object" && usuario.nome !== undefined ? usuario : null;
         desenharAba(usuario);
         document.dispatchEvent(new CustomEvent("reconecta:sessao", { detail: { usuario: usuario } }));
@@ -238,7 +267,16 @@
   var api = window.ReConecta = window.ReConecta || {};
   api.nomeTitulo = nomeTitulo;
   api.formatarTelefone = formatarTelefone;
-  api.atualizarSessao = function () { api.sessao = consultarSessao(); return api.sessao; };
+  api.fuso = FUSO;
+  api.dataBrasilia = dataBrasilia;
+  api.diaISO = diaISO;
+  api.atualizarSessao = function () {
+    api.sessaoResposta = buscarSessao();
+    api.sessao = consultarSessao(api.sessaoResposta);
+    return api.sessao;
+  };
+  // A consulta começa já no carregamento do script, antes do DOM, para a página reaproveitar.
+  api.sessaoResposta = buscarSessao();
   api.sair = function () {
     return fetch("/reconecta/auth/logout", { method: "POST", credentials: "same-origin" })
       .catch(function () {})
@@ -248,7 +286,7 @@
   function iniciar() {
     document.querySelectorAll('[data-layout="cabecalho"]').forEach(montarCabecalho);
     document.querySelectorAll('[data-layout="rodape"]').forEach(montarRodape);
-    api.atualizarSessao();
+    api.sessao = consultarSessao(api.sessaoResposta);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", iniciar);

@@ -7,6 +7,7 @@ os.environ["DATABASE_URL"] = "sqlite://"
 
 from app import app  # noqa: E402
 from Dashboard import montar_dashboard  # noqa: E402
+from fuso import hoje_brasilia  # noqa: E402
 from models import (Contribuicao, Doacao, Doador, Estabelecimento, Instituicao,
                     ItemDoacao, _utc_naive, db)  # noqa: E402
 
@@ -28,7 +29,7 @@ def test_dashboard_vazio_tem_contrato_e_30_dias():
                          "top_empresas", "alertas", "ultimas_doacoes"}
     assert all(valor == 0 for valor in dados["indicadores"].values())
     assert len(dados["por_dia"]) == 30
-    assert dados["por_dia"][-1] == {"data": date.today().isoformat(), "doacoes": 0}
+    assert dados["por_dia"][-1] == {"data": hoje_brasilia().isoformat(), "doacoes": 0}
     with app.app_context():
         assert montar_dashboard()["indicadores"] == dados["indicadores"]
 

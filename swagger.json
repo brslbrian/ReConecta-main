@@ -82,6 +82,49 @@
         "tags": [
           "auth"
         ]
+      },
+      "put": {
+        "responses": {
+          "409": {
+            "description": "E-mail já cadastrado",
+            "schema": {
+              "$ref": "#/definitions/AuthErro"
+            }
+          },
+          "401": {
+            "description": "Não autenticado",
+            "schema": {
+              "$ref": "#/definitions/AuthErro"
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "schema": {
+              "$ref": "#/definitions/AuthErro"
+            }
+          },
+          "200": {
+            "description": "Perfil atualizado",
+            "schema": {
+              "$ref": "#/definitions/UsuarioAutenticado"
+            }
+          }
+        },
+        "summary": "Atualiza contatos e, para doadores, nome; pode trocar a senha",
+        "operationId": "put_me",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/AtualizarPerfilEntrada"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/reconecta/cadastro/cnpj/{cnpj}": {
@@ -288,6 +331,11 @@
             }
           }
         ],
+        "security": [
+          {
+            "AdminToken": []
+          }
+        ],
         "tags": [
           "doacoes"
         ]
@@ -311,6 +359,11 @@
         },
         "summary": "Deletar uma doação pelo ID no PostgreSQL",
         "operationId": "Deletar uma doação pelo ID",
+        "security": [
+          {
+            "AdminToken": []
+          }
+        ],
         "tags": [
           "doacoes"
         ]
@@ -345,6 +398,11 @@
             }
           }
         ],
+        "security": [
+          {
+            "AdminToken": []
+          }
+        ],
         "tags": [
           "doacoes"
         ]
@@ -358,6 +416,7 @@
           }
         },
         "summary": "Listar todos os estabelecimentos cadastrados no banco",
+        "description": "Sem token: id, nome, CNPJ (dígitos) e endereço. Com X-Admin-Token válido: registro completo.",
         "operationId": "Listar todos os estabelecimentos",
         "tags": [
           "estabelecimentos"
@@ -379,6 +438,11 @@
             "schema": {
               "$ref": "#/definitions/Estabelecimento"
             }
+          }
+        ],
+        "security": [
+          {
+            "AdminToken": []
           }
         ],
         "tags": [
@@ -404,6 +468,11 @@
         },
         "summary": "Deletar um estabelecimento pelo ID no PostgreSQL",
         "operationId": "Deletar um estabelecimento pelo ID",
+        "security": [
+          {
+            "AdminToken": []
+          }
+        ],
         "tags": [
           "estabelecimentos"
         ]
@@ -415,6 +484,7 @@
           }
         },
         "summary": "Obter um estabelecimento pelo ID direto do banco",
+        "description": "Sem token: id, nome, CNPJ (dígitos) e endereço. Com X-Admin-Token válido: registro completo.",
         "operationId": "Obter um estabelecimento pelo ID",
         "tags": [
           "estabelecimentos"
@@ -436,6 +506,11 @@
             "schema": {
               "$ref": "#/definitions/Estabelecimento"
             }
+          }
+        ],
+        "security": [
+          {
+            "AdminToken": []
           }
         ],
         "tags": [
@@ -493,6 +568,7 @@
           }
         },
         "summary": "Listar todas as instituições cadastradas no PostgreSQL",
+        "description": "Sem token: id, nome, CNPJ (dígitos) e endereço. Com X-Admin-Token válido: registro completo.",
         "operationId": "Listar todas as instituições",
         "tags": [
           "instituicoes"
@@ -514,6 +590,11 @@
             "schema": {
               "$ref": "#/definitions/Instituicao"
             }
+          }
+        ],
+        "security": [
+          {
+            "AdminToken": []
           }
         ],
         "tags": [
@@ -539,6 +620,11 @@
         },
         "summary": "Deletar uma instituição pelo ID no PostgreSQL",
         "operationId": "Deletar uma instituição pelo ID",
+        "security": [
+          {
+            "AdminToken": []
+          }
+        ],
         "tags": [
           "instituicoes"
         ]
@@ -550,6 +636,7 @@
           }
         },
         "summary": "Obter uma instituição pelo ID direto do banco",
+        "description": "Sem token: id, nome, CNPJ (dígitos) e endereço. Com X-Admin-Token válido: registro completo.",
         "operationId": "Obter uma instituição pelo ID",
         "tags": [
           "instituicoes"
@@ -571,6 +658,11 @@
             "schema": {
               "$ref": "#/definitions/Instituicao"
             }
+          }
+        ],
+        "security": [
+          {
+            "AdminToken": []
           }
         ],
         "tags": [
@@ -760,6 +852,13 @@
   "consumes": [
     "application/json"
   ],
+  "securityDefinitions": {
+    "AdminToken": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-Admin-Token"
+    }
+  },
   "tags": [
     {
       "name": "estabelecimentos",
@@ -892,7 +991,7 @@
         },
         "data_limite_retirada": {
           "type": "string",
-          "description": "Data limite para retirada (Ex: 2026-09-10T18:00:00)"
+          "description": "Entrada: hora local de Brasília sem offset (ex.: 2026-09-10T18:00:00); resposta: ISO com offset"
         },
         "status": {
           "type": "string",
@@ -1240,6 +1339,9 @@
         "empresa": {
           "$ref": "#/definitions/EmpresaPedidoPublico"
         },
+        "data_cadastro": {
+          "type": "string"
+        },
         "receber_ate": {
           "type": "string"
         },
@@ -1319,7 +1421,7 @@
       "properties": {
         "receber_ate": {
           "type": "string",
-          "description": "Data e hora ISO local"
+          "description": "Data e hora ISO local de Brasília, sem offset"
         },
         "data_limite_retirada": {
           "type": "string",
@@ -1445,6 +1547,31 @@
         },
         "gerado_em": {
           "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "AtualizarPerfilEntrada": {
+      "properties": {
+        "nome": {
+          "type": "string",
+          "description": "Apenas doador; 3 a 100 caracteres"
+        },
+        "email": {
+          "type": "string",
+          "description": "E-mail válido e único; até 100 caracteres"
+        },
+        "telefone": {
+          "type": "string",
+          "description": "DDD e telefone, 10 ou 11 dígitos"
+        },
+        "senha_atual": {
+          "type": "string",
+          "description": "Obrigatória junto com nova_senha"
+        },
+        "nova_senha": {
+          "type": "string",
+          "description": "Mínimo 8 caracteres, com letra e número"
         }
       },
       "type": "object"
